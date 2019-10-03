@@ -1,3 +1,4 @@
+import { detectColision } from './colisionDetection.js'
 export default class Ball {
     constructor(game) {
         this.image = document.getElementById('ball')
@@ -7,11 +8,9 @@ export default class Ball {
         }
         this.position = {
             x: 10,
-            y: 10
+            y: 300
         }
         this.size = 30
-        this.gameWidth = game.width
-        this.gameHeight = game.height
         this.game = game
     }
 
@@ -23,30 +22,20 @@ export default class Ball {
         this.position.x += this.speed.x
         this.position.y += this.speed.y
         
-        //left or right
-        if (this.position.x + this.size > this.gameWidth || this.position.x < 0) {
+        //board limits left or right
+        if (this.position.x + this.size > this.game.width || this.position.x < 0) {
             this.speed.x = -this.speed.x
         }
 
-        //top or bottom
-        if (this.position.y + this.size > this.gameHeight || this.position.y < 0) {
+        //board limits top or bottom
+        if (this.position.y + this.size > this.game.height || this.position.y < 0) {
             this.speed.y = -this.speed.y
         }
 
-        //check paddle colision
-        let bottomOfBall = this.position.y + this.size,
-            topOfPaddle = this.game.paddle.position.y,
-            leftEndPaddle = this.game.paddle.position.x,
-            rightEndPaddle = this.game.paddle.position.x + this.game.paddle.width,
-            ballPositionX = this.position.x
-
-        if(bottomOfBall >= topOfPaddle && ballPositionX >= leftEndPaddle && ballPositionX <= rightEndPaddle) {
+        if (detectColision(this, this.game.paddle)) {
             this.speed.y = -this.speed.y
             this.position.y = this.game.paddle.position.y - this.size
         }
-        /* if(this.position.y + this.size >= this.game.paddle.position.y && this.position.x >= this.game.paddle.position.x && this.position.x < this.game.paddle.position.x+this.game.paddle.width) {
-            this.speed.y = -this.speed.y
-        } */
         
     }
 }
