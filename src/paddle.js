@@ -12,6 +12,7 @@ export default class Paddle {
     }
 
     draw(context) {
+        context.fillStyle = '#00f'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 

@@ -1,8 +1,10 @@
 const LEFT_KEY = 37,
-    RIGHT_KEY = 39
+    RIGHT_KEY = 39,
+    ESC = 27,
+    SPACE_BAR = 32
 
 export default class inputHandler {
-    constructor (paddle) {
+    constructor (paddle, game) {
         document.addEventListener('keydown', event => {
             switch (event.keyCode) {
                 case LEFT_KEY:
@@ -11,6 +13,12 @@ export default class inputHandler {
                 case RIGHT_KEY:
                     paddle.moveRight()                    
                     break;
+                case ESC:
+                    game.pause()                    
+                    break;     
+                case SPACE_BAR:
+                    game.start()
+                    break;        
             }
         })
 

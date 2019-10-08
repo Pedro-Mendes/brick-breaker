@@ -2,16 +2,19 @@ import { detectColision } from './colisionDetection.js'
 export default class Ball {
     constructor(game) {
         this.image = document.getElementById('ball')
+        this.reset()
+        this.size = 25
+        this.game = game
+    }
+    reset() {
         this.speed = {
-            x: 4,
-            y: 4
+            x: 6,
+            y: -6
         }
         this.position = {
             x: 10,
             y: 300
         }
-        this.size = 30
-        this.game = game
     }
 
     draw(context) {
@@ -28,8 +31,13 @@ export default class Ball {
         }
 
         //board limits top or bottom
-        if (this.position.y + this.size > this.game.height || this.position.y < 0) {
+        if (this.position.y < 0) {
             this.speed.y = -this.speed.y
+        }
+
+        if (this.position.y + this.size > this.game.height) {
+            this.game.lives--
+            this.reset()
         }
 
         if (detectColision(this, this.game.paddle)) {
